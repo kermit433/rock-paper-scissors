@@ -1,5 +1,8 @@
 let humanScore = 0;
 let computerScore = 0;
+const rockBtn = document.querySelector("#rock")
+const scoreDisplay = document.querySelector(".Container .Score")
+const resultDisplay = document.querySelector(".Container .Results")
 
 function getComputerChoice() {
     let randomNum = Math.random();
@@ -23,9 +26,9 @@ function getHumanChoice() {
 }
 
 
-function playRound() {
-    let hum = prompt("Enter choice: ");
+function playRound(hum) {
     let comp = getComputerChoice();
+    let result;
 
     console.log("PLAYROUND");
     if (hum.toLowerCase() != ("rock" || "paper" || "scissors" ) ) {
@@ -35,30 +38,36 @@ function playRound() {
 
     if (hum.toLowerCase() === "rock") {
         if (comp === "scissors") {
-            console.log("win: rock beats scissors!");
+            result = "win: rock beats scissors!"
             humanScore += 1;
         }
 
         else if (comp === "paper") {
-            console.log("loss: paper beats rock");
+            result = "loss: paper beats rock";
             computerScore += 1;
         }
 
         else {
-            console.log("draw!");
+            result = "draw!";
         }
     }
+
+    scoreDisplay.textContent = `Human Score: ${humanScore} Computer Score: ${computerScore}`;
+    resultDisplay.textContent = result;
+
+    if (humanScore === 5) {
+        resultDisplay.textContent = "You win";
+        humanScore = 0;
+        computerScore = 0;
+    }
+
+    else if (computerScore === 5) {
+        resultDisplay.textContent = "Computer Wins";
+        humanScore = 0;
+        computerScore = 0;
+    }
+
+
 }
 
-function playGame() {
-    playRound();
-    playRound();
-    playRound();
-    playRound();
-    playRound();
-
-    alert("Player: " + humanScore + " Computer: " + computerScore);
-
-}
-
-playGame();
+rockBtn.addEventListener("click", () => {playRound("rock")});
